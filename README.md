@@ -21,23 +21,9 @@
 
 ---
 
-## 🚀 Pasos para Usar el Proyecto
-
-### **Opción 1: Descargar el ZIP**
-
-```bash
-# 1. Descomprimir el archivo Transporte.zip
-unzip Transporte.zip
-cd Transporte
-
-# 2. Compilar el proyecto
-mvn clean compile
-
-# 3. Ejecutar la aplicación
-mvn exec:java -Dexec.mainClass="ar.edu.tp.App"
 ```
 
-### **Opción 2: Clonar desde Git (si está en repositorio)**
+### **Clonar desde Git **
 
 ```bash
 git clone <URL_DEL_REPOSITORIO>
@@ -72,9 +58,9 @@ Transporte/
 - Usa: **Algoritmo de Dijkstra**
 
 ### **Problema 2: Recorrido de Mantenimiento (TSP)**
-- Calcula la ruta óptima para visitar todas las estaciones
-- Usa: **Algoritmo del Vecino Más Cercano (Nearest Neighbor)**
-- Tipo: **Heurística** - rápida pero no garantiza óptimo
+- Calcula el costo mínimo para conectar todas las estaciones de tranvía
+- Usa: **Algoritmo de Prim** para árbol de expansión mínima (MST)
+- Tipo: **Red de mantenimiento óptima** sobre las estaciones primarias
 
 ---
 

@@ -23,7 +23,7 @@ Utiliza **Dijkstra** para encontrar la ruta más barata considerando:
 3. Residencia_E → Parque: $12.30 (ruta óptima)
 
 ### **Problema 2: Recorrido de Camioneta de Mantenimiento**
-Calcula el costo aproximado para visitar **todas las estaciones**:
+Calcula el costo del árbol de expansión mínima para conectar **todas las estaciones**:
 - RED PEQUEÑA: 5 estaciones, costo $20.00
 - RED GRANDE: 8 estaciones, costo $35.00
 

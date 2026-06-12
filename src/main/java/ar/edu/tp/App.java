@@ -4,6 +4,8 @@ import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
+import org.jgrapht.alg.spanning.PrimMinimumSpanningTree;
+import org.jgrapht.graph.AsSubgraph;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.Edge;
@@ -174,60 +176,23 @@ public class App {
     }
 
     /**
-     * PROBLEMA 2: Recorrido de Camioneta de Mantenimiento (TSP)
+     * PROBLEMA 2: Recorrido de Camioneta de Mantenimiento
      * 
-     * Calcula el costo para visitar todas las estaciones usando
-     * HEURÍSTICA: Algoritmo del Vecino Más Cercano (Nearest Neighbor)
+     * Calcula el costo del árbol de expansión mínima usando el
+     * Algoritmo de Prim sobre las estaciones de tranvía.
      * 
-     * Complejidad: O(n²) - mucho mejor que fuerza bruta O(n!)
-     * Nota: No es óptimo, pero es rápido y razonable
+     * Este resultado representa el costo mínimo para conectar todas
+     * las estaciones en una red de mantenimiento.
      */
     private static double calcularRecorridoEstaciones(
             Graph<String, DefaultWeightedEdge> g, String[] estaciones) {
-        
         if (estaciones.length == 0) return 0.0;
-        
-        // Usar Nearest Neighbor: comenzar desde E1, ir al más cercano no visitado
-        boolean[] visitado = new boolean[estaciones.length];
-        double costoTotal = 0.0;
-        
-        String actual = estaciones[0];
-        visitado[0] = true;
-        
-        // Visitar cada estación restante
-        for (int i = 1; i < estaciones.length; i++) {
-            double distanciaMin = Double.MAX_VALUE;
-            int proximoIdx = -1;
-            
-            // Buscar la estación no visitada más cercana
-            for (int j = 0; j < estaciones.length; j++) {
-                if (!visitado[j]) {
-                    DefaultWeightedEdge edge = g.getEdge(actual, estaciones[j]);
-                    if (edge != null) {
-                        double dist = g.getEdgeWeight(edge);
-                        if (dist < distanciaMin) {
-                            distanciaMin = dist;
-                            proximoIdx = j;
-                        }
-                    }
-                }
-            }
-            
-            // Agregar costo de la arista
-            if (proximoIdx != -1) {
-                costoTotal += distanciaMin;
-                visitado[proximoIdx] = true;
-                actual = estaciones[proximoIdx];
-            }
-        }
-        
-        // Volver a la primera estación (ciclo cerrado)
-        DefaultWeightedEdge arista_retorno = g.getEdge(actual, estaciones[0]);
-        if (arista_retorno != null) {
-            costoTotal += g.getEdgeWeight(arista_retorno);
-        }
-        
-        return costoTotal;
+
+        var estacionSet = new HashSet<>(Arrays.asList(estaciones));
+        var subgrafo = new AsSubgraph<>(g, estacionSet);
+
+        var prim = new PrimMinimumSpanningTree<>(subgrafo);
+        return prim.getSpanningTree().getWeight();
     }
 
     /**
