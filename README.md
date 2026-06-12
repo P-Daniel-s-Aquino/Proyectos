@@ -315,5 +315,3 @@ Si alguien tiene problemas:
 2. Ejecutar: `mvn clean compile`
 3. Si falla, enviar el mensaje de error completo
 4. Revisar este README en la sección "Solución de Problemas"
-
-**¡Listo para compartir!** 🚀
