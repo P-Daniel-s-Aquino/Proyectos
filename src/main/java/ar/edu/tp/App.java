@@ -55,6 +55,9 @@ public class App {
         // 1. Resolver rutas de usuarios
         System.out.println("\n📍 RUTAS DE USUARIOS (Menor costo):\n");
         
+        int rutasCalculadas = 0;
+        double sumaCostosRutas = 0.0;
+
         for (String[] par : pares) {
             String origen = par[0];
             String destino = par[1];
@@ -67,10 +70,19 @@ public class App {
                 System.out.printf("  %s → %s%n", origen, destino);
                 System.out.printf("    Camino: %s%n", ruta.getVertexList());
                 System.out.printf("    Costo total: $%.2f%n%n", ruta.getWeight());
+                rutasCalculadas++;
+                sumaCostosRutas += ruta.getWeight();
             }
         }
+
+        System.out.printf("  Nodos totales: %d, Aristas totales: %d%n",
+            g.vertexSet().size(), g.edgeSet().size());
+        if (rutasCalculadas > 0) {
+            System.out.printf("  Costo promedio de rutas: $%.2f%n",
+                sumaCostosRutas / rutasCalculadas);
+        }
         
-        // 2. Recorrido de camioneta (viajante simplificado)
+        // 2. Recorrido de camioneta (MST / mantenimiento)
         System.out.println("\n🚐 MANTENIMIENTO (Camioneta):\n");
         System.out.println("  Estaciones a visitar: " + Arrays.toString(estaciones));
         double costo = calcularRecorridoEstaciones(g, estaciones);
@@ -98,10 +110,15 @@ public class App {
         
         // Conexiones: ORÍGENES -> ESTACIONES (hoverboard)
         agregarArista(g, "Casa_A", "E1", K1 * 1.2);      // 1.2 km
+        agregarArista(g, "Casa_A", "E2", K1 * 1.4);      // 1.4 km
         agregarArista(g, "Casa_B", "E2", K1 * 1.5);      // 1.5 km
+        agregarArista(g, "Casa_B", "E3", K1 * 1.6);      // 1.6 km
         agregarArista(g, "Oficina", "E3", K1 * 0.8);     // 0.8 km
+        agregarArista(g, "Oficina", "E2", K1 * 1.0);     // 1.0 km
         agregarArista(g, "Hospital", "E5", K1 * 2.0);    // 2.0 km
+        agregarArista(g, "Hospital", "E4", K1 * 1.8);    // 1.8 km
         agregarArista(g, "Comercio", "E4", K1 * 1.0);    // 1.0 km
+        agregarArista(g, "Comercio", "E3", K1 * 1.2);    // 1.2 km
         
         // Red de tranvía (estaciones - tranvía)
         agregarArista(g, "E1", "E2", K2);                // 1 tramo
@@ -115,7 +132,9 @@ public class App {
         String[][] pares = {
             {"Casa_A", "Hospital"},
             {"Casa_B", "Comercio"},
-            {"Oficina", "Casa_A"}
+            {"Oficina", "Casa_A"},
+            {"Hospital", "Comercio"},
+            {"Casa_B", "Oficina"}
         };
         
         return new GrafoTransporte(g, estaciones, pares);
@@ -140,13 +159,21 @@ public class App {
         
         // Conexiones: ORÍGENES -> ESTACIONES (hoverboard)
         agregarArista(g, "Residencia_N", "E1", K1 * 1.0);
+        agregarArista(g, "Residencia_N", "E2", K1 * 1.2);
         agregarArista(g, "Residencia_S", "E5", K1 * 1.3);
+        agregarArista(g, "Residencia_S", "E4", K1 * 1.5);
         agregarArista(g, "Residencia_E", "E4", K1 * 1.2);
+        agregarArista(g, "Residencia_E", "E3", K1 * 1.0);
         agregarArista(g, "Residencia_O", "E7", K1 * 1.1);
+        agregarArista(g, "Residencia_O", "E6", K1 * 1.3);
         agregarArista(g, "Centro_Empresas", "E3", K1 * 0.9);
+        agregarArista(g, "Centro_Empresas", "E2", K1 * 1.1);
         agregarArista(g, "Universidad", "E6", K1 * 1.5);
+        agregarArista(g, "Universidad", "E7", K1 * 1.4);
         agregarArista(g, "Parque", "E2", K1 * 0.7);
+        agregarArista(g, "Parque", "E3", K1 * 0.9);
         agregarArista(g, "Estacion_Central", "E8", K1 * 0.5);
+        agregarArista(g, "Estacion_Central", "E7", K1 * 0.8);
         
         // Red de tranvía (estaciones - tranvía)
         // Ruta principal: E1-E2-E3-E4-E5-E6-E7-E8
@@ -169,7 +196,9 @@ public class App {
         String[][] pares = {
             {"Residencia_N", "Centro_Empresas"},
             {"Universidad", "Estacion_Central"},
-            {"Residencia_E", "Parque"}
+            {"Residencia_E", "Parque"},
+            {"Residencia_N", "Parque"},
+            {"Centro_Empresas", "Universidad"}
         };
         
         return new GrafoTransporte(g, estaciones, pares);

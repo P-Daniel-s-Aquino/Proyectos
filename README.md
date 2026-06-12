@@ -21,9 +21,10 @@
 
 ---
 
-```
+> Si descargas el proyecto como ZIP, primero descomprímelo y luego entra en la carpeta `Transporte`.
 
-### **Clonar desde Git **
+```
+### **Clonar desde Git**
 
 ```bash
 git clone <URL_DEL_REPOSITORIO>
