@@ -142,12 +142,6 @@ mvn exec:java -Dexec.mainClass="ar.edu.tp.App"
 <details>
 <summary><b>📖 HAGA CLIC AQUÍ PARA VER DOCUMENTACIÓN TÉCNICA</b></summary>
 
-### **Mejoras Realizadas** ✅
-- ✅ **Encapsulación**: Clase interna `GrafoTransporte` para datos
-- ✅ **Métodos separados**: Cada responsabilidad independiente
-- ✅ **Documentación**: Comentarios JavaDoc completos
-- ✅ **Claridad**: Variables descriptivas (K1, K2, estaciones, paresOD)
-
 ### **Dos Grafos Completos** 🌐
 
 #### **GRAFO 1: RED PEQUEÑA (Centro Urbano)**
